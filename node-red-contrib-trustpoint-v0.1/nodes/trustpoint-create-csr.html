@@ -1,0 +1,50 @@
+<script type="text/javascript">
+    RED.nodes.registerType('trustpoint-create-csr', {
+        category: 'Trustpoint',
+        color: '#d0d0d0',
+        defaults: {
+            name: { value: "" },
+            cn: { value: "example.com" },
+            o: { value: "" },
+            ou: { value: "" },
+            san: { value: "" },
+            privateKey: { value: "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "font-awesome/fa-certificate",
+        label: function () {
+            return this.name || "trustpoint-create-csr";
+        }
+    });
+</script>
+
+<div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name">
+</div>
+
+<div class="form-row">
+    <label for="node-input-cn"><i class="fa fa-user"></i> Common Name (CN)</label>
+    <input type="text" id="node-input-cn">
+</div>
+
+<div class="form-row">
+    <label for="node-input-o">Organization (O)</label>
+    <input type="text" id="node-input-o">
+</div>
+
+<div class="form-row">
+    <label for="node-input-ou">Org Unit (OU)</label>
+    <input type="text" id="node-input-ou">
+</div>
+
+<div class="form-row">
+    <label for="node-input-san">Subject Alt Names (comma-separated)</label>
+    <input type="text" id="node-input-san">
+</div>
+
+<div class="form-row">
+    <label for="node-input-privateKey"><i class="fa fa-key"></i> Private Key (PEM)</label>
+    <input type="text" id="node-input-privateKey" placeholder="Or provide via msg.payload.privateKey">
+</div>
