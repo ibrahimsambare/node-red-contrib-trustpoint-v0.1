@@ -1,0 +1,59 @@
+[
+  {
+    "id": "inject-renew",
+    "type": "inject",
+    "z": "flow2",
+    "name": "Trigger Reenroll",
+    "props": [],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "wires": [["loadCert"]]
+  },
+  {
+    "id": "loadCert",
+    "type": "function",
+    "z": "flow2",
+    "name": "Load Cert + Key",
+    "func": "msg.payload = {\n    cert: require('fs').readFileSync('/data/device_cert.pem', 'utf-8'),\n    key: require('fs').readFileSync('/data/device_private.pem', 'utf-8')\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "wires": [["reenroll"]]
+  },
+  {
+    "id": "reenroll",
+    "type": "trustpoint-simplereenroll",
+    "z": "flow2",
+    "name": "Reenroll Certificate",
+    "estHost": "192.168.65.1",
+    "cert": "",
+    "key": "",
+    "wires": [["storeUpdated"]]
+  },
+  {
+    "id": "storeUpdated",
+    "type": "trustpoint-store",
+    "z": "flow2",
+    "name": "Store Updated Cert",
+    "operation": "store",
+    "location": "file",
+    "contextScope": "flow",
+    "format": "pem",
+    "key": "updatedDeviceCert",
+    "filePath": "/data/device_cert.pem",
+    "wires": [["debugRenewed"]]
+  },
+  {
+    "id": "debugRenewed",
+    "type": "debug",
+    "z": "flow2",
+    "name": "Renewed Certificate Saved",
+    "active": true,
+    "console": "false",
+    "complete": "payload",
+    "statusVal": "",
+    "statusType": "auto",
+    "wires": []
+  }
+]
